@@ -14,7 +14,7 @@ function displayFullName() {
 	request.onreadystatechange = function() {
     if(this.readyState === 4 && this.status === 200) {
 	    data = data + "Chatbot: "+this.responseText+"\n"
-		document.getElementById("t1").innerHTML = data;
+		document.getElementById("t1").value = data;
         }
     };
 	request.send();

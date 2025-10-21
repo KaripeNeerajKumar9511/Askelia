@@ -1,7 +1,7 @@
 {% load static %}
 <html>
 <head>
-<title>Pregbot Application</title>
+<title>Pocket Dr. Application</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link href="{% static 'default.css' %}" rel="stylesheet" type="text/css" media="screen" />
  <script LANGUAGE="Javascript" >
@@ -28,20 +28,20 @@ function validate(){
 <div id="wrapper">
   <div id="header">
     <div id="logo">
-      <h1><font color="orange" size=6>PregBot: A System Based on ML and NLP for Supporting Women and Families during Pregnancy</font></h1>
-	  <marquee><font color="pink" size=4>PREGBOT APPLICATION</font></marquee>
+      <h1><font color="orange" size=6>Pocket Dr.: An AI-Powered System Using ML and NLP for Personalized Healthcare Support and Medical Queries</font></h1>
+	  <marquee><font color="pink" size=4>Pocket Dr. APPLICATION</font></marquee>
     </div>
    
   
     </div>
   </div>
   <div id="menu">
-     <ul>
+	<div style="display: flex; justify-content: center; padding: 5px 0;">
+    <ul class="navbar">
       <li><a href="{% url 'MyChatBot' %}">Home</a></li>
       <li><a href="{% url 'User' %}">User</a></li>
       <li><a href="{% url 'Register' %}">Register Here</a></li>
-      
-   </ul>
+    </ul>
   </div>
   <div class="entry">
    <br/><br/><br/>

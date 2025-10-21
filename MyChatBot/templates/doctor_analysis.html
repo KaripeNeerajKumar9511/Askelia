@@ -1,0 +1,800 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Medical Report Analysis - Askleia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #dbeafe;
+      --secondary: #0ea5e9;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --dark: #1e293b;
+      --gray-dark: #475569;
+      --gray: #64748b;
+      --gray-light: #e2e8f0;
+      --light: #f8fafc;
+      --white: #ffffff;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      min-height: 100vh;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    /* Header Styles */
+    .main-header {
+      background: var(--white);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      font-size: 1.5rem;
+      color: var(--primary);
+      background: var(--primary-light);
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-text h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .logo-text p {
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin-top: -2px;
+    }
+
+    .main-nav {
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav-link {
+      color: var(--gray-dark);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+      background: var(--light);
+    }
+
+    .nav-link.active {
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: var(--white);
+      padding: 40px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    h1 {
+      color: var(--dark);
+      /* margin-bottom: 10px; */
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h1 i {
+      color: var(--primary);
+    }
+
+    .page-description {
+      color: var(--gray);
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+    }
+
+    /* Form Styles */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-with-icon i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border: 1px solid var(--gray-light);
+      border-radius: var(--radius-sm);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .input-with-icon input, .input-with-icon textarea, .input-with-icon select {
+      padding-left: 45px;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .file-upload {
+      border: 2px dashed var(--gray-light);
+      border-radius: var(--radius-sm);
+      padding: 30px;
+      text-align: center;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .file-upload:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .file-upload i {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .file-upload p {
+      color: var(--gray);
+      margin-bottom: 5px;
+    }
+
+    .file-upload span {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .submit-btn {
+      margin-top: 20px;
+      padding: 14px 30px;
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .submit-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+      background: var(--white);
+      margin: 5% auto;
+      padding: 30px;
+      border-radius: var(--radius);
+      width: 90%;
+      max-width: 900px;
+      max-height: 90%;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+
+    .modal-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      font-size: 24px;
+      color: var(--gray);
+      transition: color 0.3s;
+      z-index: 10;
+    }
+
+    .close:hover {
+      color: var(--danger);
+    }
+
+    .modal-header {
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .modal-header h2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--dark);
+    }
+
+    .modal-header h2 i {
+      color: var(--primary);
+    }
+
+    /* Card Styles */
+    .card {
+      background: var(--light);
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--primary);
+    }
+
+    .card h3 {
+      margin-bottom: 15px;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card h3 i {
+      color: var(--primary);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .info-item {
+      margin-bottom: 10px;
+    }
+
+    .info-item strong {
+      color: var(--dark);
+    }
+
+    .report-card {
+      background: var(--white);
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-light);
+      box-shadow: var(--shadow);
+    }
+
+    .report-card h4 {
+      margin-bottom: 15px;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .report-card h4 i {
+      color: var(--primary);
+    }
+
+    .report-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-sm);
+      margin-bottom: 15px;
+      border: 1px solid var(--gray-light);
+    }
+
+    .lab-results {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .lab-item {
+      background: var(--light);
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .lab-item .value {
+      font-weight: 600;
+    }
+
+    .anomaly-tag, .condition-tag {
+      display: inline-block;
+      padding: 5px 12px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+
+    .condition-tag {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .recommendation-list {
+      list-style-type: none;
+    }
+
+    .recommendation-list li {
+      margin-bottom: 10px;
+      padding-left: 25px;
+      position: relative;
+    }
+
+    .recommendation-list li:before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--success);
+      font-weight: bold;
+    }
+
+    .view-report-btn {
+      margin-top: 20px;
+      padding: 12px 25px;
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .view-report-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header-content {
+        flex-direction: column;
+        height: auto;
+        padding: 15px 20px;
+      }
+      
+      .main-nav {
+        margin-top: 15px;
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .container {
+        margin: 20px;
+        padding: 25px;
+      }
+      
+      .modal-content {
+        width: 95%;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Navbar -->
+  <header class="main-header">
+    <div class="header-content">
+      <div class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-stethoscope"></i>
+        </div>
+        <div class="logo-text">
+          <h1>Askleia</h1>
+          <p>AI-Powered Healthcare</p>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <a href="{% url 'MyChatBot' %}" class="nav-link">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a href="{% url 'UserScreen' %}" class="nav-link">
+          <i class="fas fa-robot"></i>
+          <span>Chatbot</span>
+        </a>
+        <a href="{% url 'DoctorAnalysis' %}" class="nav-link active">
+          <i class="fas fa-file-medical-alt"></i>
+          <span>Report Analyzer</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Content -->
+  <div class="container">
+    <h1><i class="fas fa-file-medical-alt"></i> Medical Report Analysis</h1>
+    <p class="page-description">Upload your medical reports and health information for AI-powered analysis and personalized insights.</p>
+    
+    <form method="post" enctype="multipart/form-data" action="{% url 'DoctorAnalysis' %}">
+      {% csrf_token %}
+      
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="name">Patient Name</label>
+          <div class="input-with-icon">
+            <i class="fas fa-user"></i>
+            <input type="text" id="name" name="name" placeholder="Enter full name" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="age">Age</label>
+          <div class="input-with-icon">
+            <i class="fas fa-calendar-alt"></i>
+            <input type="number" id="age" name="age" placeholder="Enter age" min="1" max="120" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <div class="input-with-icon">
+            <i class="fas fa-venus-mars"></i>
+            <select id="gender" name="gender" required>
+              <option value="" disabled selected>Select gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="bp">Blood Pressure</label>
+          <div class="input-with-icon">
+            <i class="fas fa-heartbeat"></i>
+            <input type="text" id="bp" name="bp" placeholder="e.g., 120/80 mmHg">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="diabetic">Diabetic Status</label>
+          <div class="input-with-icon">
+            <i class="fas fa-vial"></i>
+            <select id="diabetic" name="diabetic">
+              <option value="" disabled selected>Select status</option>
+              <option value="No">No</option>
+              <option value="Type 1">Type 1</option>
+              <option value="Type 2">Type 2</option>
+              <option value="Prediabetic">Prediabetic</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="hyperthyroidism">Thyroid Condition</label>
+          <div class="input-with-icon">
+            <i class="fas fa-weight"></i>
+            <select id="hyperthyroidism" name="hyperthyroidism">
+              <option value="" disabled selected>Select status</option>
+              <option value="No">No</option>
+              <option value="Hyperthyroidism">Hyperthyroidism</option>
+              <option value="Hypothyroidism">Hypothyroidism</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-group full-width">
+          <label for="issues">Health Issues & Symptoms</label>
+          <div class="input-with-icon">
+            <i class="fas fa-notes-medical"></i>
+            <textarea id="issues" name="issues" placeholder="Describe your health concerns, symptoms, or any other relevant information"></textarea>
+          </div>
+        </div>
+        
+        <div class="form-group full-width">
+          <label>Upload Medical Reports</label>
+          <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Click to upload files</p>
+            <span>Supports PDF, JPG, PNG (Max 10MB each)</span>
+            <input type="file" id="fileInput" name="reports" multiple>
+          </div>
+          <div id="fileList" style="margin-top: 10px;"></div>
+        </div>
+      </div>
+      
+      <button type="submit" class="submit-btn">
+        <i class="fas fa-brain"></i>
+        Analyze with AI
+      </button>
+    </form>
+
+    {% if result %}
+      <!-- Button to open modal -->
+      <button class="view-report-btn" onclick="document.getElementById('analysisModal').style.display='block'">
+        <i class="fas fa-chart-line"></i>
+        View AI Analysis Report
+      </button>
+
+      <!-- Modal -->
+      <div id="analysisModal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="document.getElementById('analysisModal').style.display='none'">&times;</span>
+          
+          <div class="modal-header">
+            <h2><i class="fas fa-chart-line"></i> AI Analysis Report</h2>
+          </div>
+
+          {% if result.patientInfo %}
+          <div class="card">
+            <h3><i class="fas fa-user-injured"></i> Patient Information</h3>
+            <div class="info-grid">
+              <div class="info-item">
+                <strong>Name:</strong> {{ result.patientInfo.name }}
+              </div>
+              <div class="info-item">
+                <strong>Age:</strong> {{ result.patientInfo.age }}
+              </div>
+              <div class="info-item">
+                <strong>Gender:</strong> {{ result.patientInfo.gender }}
+              </div>
+              <div class="info-item">
+                <strong>Blood Pressure:</strong> {{ result.patientInfo.bp }}
+              </div>
+              <div class="info-item">
+                <strong>Diabetic Status:</strong> {{ result.patientInfo.diabetic }}
+              </div>
+              <div class="info-item">
+                <strong>Thyroid Condition:</strong> {{ result.patientInfo.hyperthyroidism }}
+              </div>
+              <div class="info-item full-width">
+                <strong>Health Issues:</strong> {{ result.patientInfo.healthIssues }}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if result.reportAnalyses %}
+          <div class="card">
+            <h3><i class="fas fa-file-medical"></i> Report Analyses</h3>
+            {% for r in result.reportAnalyses %}
+              <div class="report-card">
+                <h4><i class="fas fa-file-alt"></i> Report {{ forloop.counter }}</h4>
+
+                {% if r.reportUrl %}
+                <img src="{{ r.reportUrl }}" alt="Report Image" class="report-image">
+                {% endif %}
+
+                {% if r.detailedFindings %}
+                <p><strong>Detailed Findings:</strong> {{ r.detailedFindings }}</p>
+                {% endif %}
+
+                {% if r.labResults %}
+                <p><strong>Lab Results:</strong></p>
+                <div class="lab-results">
+                  {% for key, val in r.labResults.items %}
+                  <div class="lab-item">
+                    <span class="key">{{ key }}:</span>
+                    <span class="value">{{ val }}</span>
+                  </div>
+                  {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if r.anomalies %}
+                <p><strong>Anomalies Detected:</strong></p>
+                <div>
+                  {% for anomaly in r.anomalies %}
+                  <span class="anomaly-tag">{{ anomaly }}</span>
+                  {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if r.possibleConditions %}
+                <p><strong>Possible Conditions:</strong></p>
+                <div>
+                  {% for condition in r.possibleConditions %}
+                  <span class="condition-tag">{{ condition }}</span>
+                  {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if r.doctorNotes %}
+                <p><strong>Doctor Notes:</strong> {{ r.doctorNotes }}</p>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {% if result.overallSummary %}
+          <div class="card">
+            <h3><i class="fas fa-clipboard-list"></i> Overall Summary</h3>
+            <p>{{ result.overallSummary }}</p>
+          </div>
+          {% endif %}
+
+          {% if result.doctorRecommendations %}
+          <div class="card">
+            <h3><i class="fas fa-user-md"></i> Doctor Recommendations</h3>
+            <ul class="recommendation-list">
+              {% for rec in result.doctorRecommendations %}
+              <li>{{ rec }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  <script>
+    // Close modal on outside click
+    window.onclick = function(event) {
+      var modal = document.getElementById('analysisModal');
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    // File upload display
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      const fileList = document.getElementById('fileList');
+      fileList.innerHTML = '';
+      
+      if (this.files.length > 0) {
+        const fileCount = document.createElement('p');
+        fileCount.innerHTML = `<i class="fas fa-check-circle" style="color: var(--success);"></i> ${this.files.length} file(s) selected`;
+        fileList.appendChild(fileCount);
+        
+        // Show file names
+        for (let i = 0; i < this.files.length; i++) {
+          const fileName = document.createElement('p');
+          fileName.style.fontSize = '0.9rem';
+          fileName.style.marginTop = '5px';
+          fileName.innerHTML = `<i class="fas fa-file" style="color: var(--primary);"></i> ${this.files[i].name}`;
+          fileList.appendChild(fileName);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

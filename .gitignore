@@ -1,0 +1,30 @@
+# Ignore PDF files
+*.pdf
+
+# Ignore Word documents
+*.doc
+*.docx
+
+# Ignore Excel files
+*.xls
+*.xlsx
+
+# Ignore PowerPoint files
+*.ppt
+*.pptx
+
+# Ignore text and rich text files
+*.txt
+*.rtf
+
+# Ignore video files
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.wmv
+*.flv
+
+# Ignore temporary or backup files
+*.tmp
+*.bak

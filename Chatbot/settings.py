@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +29,12 @@ SECRET_KEY = 'smwx7#*zi&_juwg8o59r%4rkhb$n4-_67v)ivs!60i9w_$#qyn'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+cloudinary.config(
+    cloud_name="dxsafjcl4",
+    api_key="734289539815585",
+    api_secret="CBZPRw57UsYIVPM13VZuio9wbCQ",
+    secure=True
+)
 
 # Application definition
 
@@ -56,8 +64,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-		os.path.join('C:/Python/Chatbot/MyChatBot', 'templates'),
-	],
+            os.path.join('C:/Python/Chatbot/MyChatBot', 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,9 +92,9 @@ DATABASES = {
         'PORT': '3306',
         'USER': 'root',
         'PASSWORD': '',
-	'OPTIONS': {
-          'autocommit': True,
-        },        
+        'OPTIONS': {
+            'autocommit': True,
+        },
     }
 }
 
